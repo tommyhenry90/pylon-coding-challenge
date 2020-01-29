@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vue serve index.js"
+    "dev": "vue serve index.js --port 11112"
   },
   "dependencies": {
     "axios": "^0.19.2",

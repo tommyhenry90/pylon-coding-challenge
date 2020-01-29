@@ -15,6 +15,9 @@ class ContactResource extends JsonResource
     public function toArray($request)
     {
         return [
+            // This structure is inspired by JSON:API (https://jsonapi.org).
+            // It can make responses look slightly more complex than a simple API,
+            // but it is quite principled.
             'type' => 'contacts',
             'id' => $this->uuid,
             'attributes' => [
@@ -27,7 +30,9 @@ class ContactResource extends JsonResource
             'links' => [
                 'self' => [
                     'href' => self::getSelfLink($this),
+                    // TODO: 'describedby', etc.
                 ],
+                // TODO: hypermedia controls https://en.wikipedia.org/wiki/HATEOAS#Example
             ],
         ];
     }

@@ -1,4 +1,5 @@
 module.exports = {
+  lintOnSave: 'warning',
   devServer: {
     watchOptions: {
       ignored: /node_modules/,

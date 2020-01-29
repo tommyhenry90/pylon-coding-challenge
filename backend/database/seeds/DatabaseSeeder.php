@@ -49,7 +49,9 @@ class DatabaseSeeder extends Seeder
     {
         $projects = SolarProject::all();
         foreach ($projects as $project) {
-            $project->contacts()->attach(Contact::all()->shuffle()->first());
+            $n = $this->faker->randomElement([1, 2, 3]);
+            $contacts = Contact::all()->shuffle()->take($n);
+            $project->contacts()->sync($contacts);
         }
     }
 }

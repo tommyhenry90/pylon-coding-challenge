@@ -53,23 +53,38 @@ class Handler extends ExceptionHandler
     {
         $response = parent::render($request, $exception);
 
-        if (Str::startsWith($request->path(), 'api/')) {
-            $errorClass = (new \ReflectionClass($exception))->getShortName();
-            $typeUrl = url('/docs/errors') . '#' . $errorClass;
-            $typeName = str_replace('_', ' ', Str::title(Str::snake($errorClass)));
-            $errors = null;
-            if (property_exists($response, 'original')) {
-                $errors = $response->original['errors'] ?? null;
-            }
-            return response()->json([
-                'type' => $typeUrl,
-                'title' => $typeName,
-                'detail' => $exception->getMessage(),
-                'status' => $response->getStatusCode(),
-                'errors' => $errors,
-            ], $response->getStatusCode());
+        if ($request->wantsJson()) {
+            $problemDetails = $this->formatAsProblemDetails($request, $response, $exception);
+            return response()->json($problemDetails, $response->getStatusCode());
         }
 
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Problem details format is described by RFC7807
+     * See https://tools.ietf.org/html/rfc7807#section-3
+     */
+    protected function formatAsProblemDetails($request, $response, $exception)
+    {
+        $errorClass = (new \ReflectionClass($exception))->getShortName();
+        $typeUrl = url('/docs/errors') . '#' . $errorClass;
+        $typeName = str_replace('_', ' ', Str::title(Str::snake($errorClass)));
+        $problemDetails = [
+            'type' => $typeUrl,
+            'title' => $typeName,
+            'detail' => $exception->getMessage(),
+            'status' => $response->getStatusCode(),
+        ];
+
+        if (property_exists($response, 'original')) {
+            $problemDetails['errors'] = $response->original['errors'] ?? null;
+        }
+
+        if (config('app.debug')) {
+            $problemDetails['exception_trace'] = $exception->getTrace();
+        }
+
+        return $problemDetails;
     }
 }

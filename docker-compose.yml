@@ -4,27 +4,17 @@ services:
   backend:
     build: ./backend
     working_dir: /var/www
-    command: ./docker_entrypoint.sh
+    command: ./entrypoint.sh
     ports:
-      - "11111:8000"
+      - "11111:11111"
     volumes:
       - ./backend:/var/www
-    depends_on:
-      - mysql
 
   frontend:
     image: node:12
     working_dir: /src/frontend
-    command: ./docker_entrypoint.sh
+    command: ./entrypoint.sh
     ports:
-      - "11112:8080"
+      - "11112:11112"
     volumes:
       - ./frontend:/src/frontend
-
-  mysql:
-    image: mysql:5.7
-    expose:
-      - "3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: laravel

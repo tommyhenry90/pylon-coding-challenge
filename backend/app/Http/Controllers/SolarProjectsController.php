@@ -17,7 +17,7 @@ class SolarProjectsController extends Controller
 
     public function store(Request $request)
     {
-        $data = $this->validate($request->all(), [
+        $data = $this->validate($request, [
             'system_size' => 'numeric|present|nullable',
             'title' => 'string|required',
             'site_latitude' => 'numeric|required',

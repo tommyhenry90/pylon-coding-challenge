@@ -18,8 +18,10 @@ class CreateSolarProjectsTable extends Migration
             $table->uuid('uuid')->unique()->index();
             $table->text('title');
             $table->double('system_size')->nullable();
+            $table->text('system_details');
             $table->double('site_latitude');
             $table->double('site_longitude');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

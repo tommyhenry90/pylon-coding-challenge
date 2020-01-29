@@ -20,6 +20,7 @@ class SolarProjectResource extends JsonResource
             'attributes' => [
                 'title' => $this->title,
                 'system_size' => $this->system_size,
+                'system_details' => $this->system_details,
                 'site_latitude' => $this->site_latitude,
                 'site_longitude' => $this->site_longitude,
                 'created_at' => $this->created_at->toAtomString(),
