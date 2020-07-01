@@ -99,7 +99,7 @@ cd backend
 ./entrypoint.sh
 ```
 
-Once the script has run, open <http://localhost:11111/api/solar_design> in your browser to verify the server has installed correctly.
+Once the script has run, open <http://localhost:11111/api/solar_projects> in your browser to verify the server has installed correctly.
 
 #### Running the frontend
 
