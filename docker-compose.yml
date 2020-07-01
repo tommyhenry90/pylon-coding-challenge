@@ -11,7 +11,7 @@ services:
       - ./backend:/var/www
 
   frontend:
-    image: node:12
+    image: node:12.14
     working_dir: /src/frontend
     command: ./entrypoint.sh
     ports:
