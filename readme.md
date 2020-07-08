@@ -274,6 +274,7 @@ This API is not used from the frontend until/unless you complete the extended Ta
 
 - Currently, at <http://localhost:11112/contacts>, contacts "fill up" the table incrementally. We would prefer if they all appeared together
 - Rewrite the `fetchContacts` method in `ListContacts.vue` so that contacts are only displayed once _all_ contacts have been fetched from the API
+- If there are any errors loading contacts, a `console.error` should provide details. In a real app, the user may see an error message, or the failing request could be retried
 - You may choose to continue using `async`/`await` syntax, or just use Promises
 
 The frontend has two main list views, the list of projects and the list of contacts.
