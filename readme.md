@@ -298,15 +298,17 @@ Have a read of [this article](https://evertpot.com/h2-parallelism/) for more inf
 
 - Implement an API that can "bulk delete" projects with a constant number of AJAX requests (not necessarily 1 request, but fewer than _n_ requests for _n_ projects!)
 - Implement a test for this API in the `backend/tests/Features` directory. The test must perform the HTTP request to the API, and then check that the appropriate records have been deleted in the database after the request has completed
+- Implement a test for failing behaviour as described below (e.g. attempting to delete a nonexistent project)
 - _Don't_ implement a frontend for this feature
 
 In order to support more convenient API usage, we want to introduce a 'bulk delete' ability.
 Bulk operations in REST APIs are a contentious issue with no clear solution.
 We're keen to see what you come up with!
 
-The ideal solution will:
+Our desired solution will:
 
 - be atomic, so that either all specified records will be deleted or none will;
+- fail with a 422 status code and an appropriate [response](https://symfonycasts.com/screencast/rest/application-problem#the-application-problem-json-content-type) if any of the given projects are already deleted, or do not exist;
 - perform fewer than _n_ database statements;
 - be justified with a few brief sentences or bullet points in the comments. For example: how did you choose your route/method combination? How did you decide on a data format for the request body, if any?
 
