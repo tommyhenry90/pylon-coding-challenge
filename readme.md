@@ -274,7 +274,7 @@ This API is not used from the frontend until/unless you complete the extended Ta
 
 - Currently, at <http://localhost:11112/contacts>, contacts "fill up" the table incrementally. We would prefer if they all appeared together
 - Rewrite the `fetchContacts` method in `ListContacts.vue` so that contacts are only displayed once _all_ contacts have been fetched from the API
-- Using `await` is not required, but preferred
+- You may choose to continue using `async`/`await` syntax, or just use Promises
 
 The frontend has two main list views, the list of projects and the list of contacts.
 They are similar in that they both fetch a list of objects from the server, making AJAX requests to the API for each item.
@@ -288,22 +288,27 @@ This requires changing the code in the `fetchContacts` method in `ListContacts.v
 We tried to make it wait for all contacts to finish their AJAX requests before assigning them all to `this.contacts` on the final line of the method, but for some reason the contacts still "fill up" the table one at a time!
 
 Please fix this method so that the contacts _all_ appear at the same time.
+Your code should perform the requests to individal contact endpoints _in parallel_, so that each request doesn't wait for the preceding requests to finish.
+
+Note that this is an example of a "1+n" request pattern: 1 request to the list endpoint, and _n_ requests for the individual contacts.
+This pattern _can_ be bad for performance, but it keeps the API simple and aids cacheability.
+Have a read of [this article](https://evertpot.com/h2-parallelism/) for more information.
 
 ### 3. Bulk project delete API (new backend feature)
 
 - Implement an API that can "bulk delete" projects with a constant number of AJAX requests (not necessarily 1 request, but fewer than _n_ requests for _n_ projects!)
-- Justify your API design with a few brief sentences or bullet points
-- Implement a test for this API in the `backend/tests/Features` directory
+- Implement a test for this API in the `backend/tests/Features` directory. The test must perform the HTTP request to the API, and then check that the appropriate records have been deleted in the database after the request has completed
 - _Don't_ implement a frontend for this feature
 
 In order to support more convenient API usage, we want to introduce a 'bulk delete' ability.
 Bulk operations in REST APIs are a contentious issue with no clear solution.
 We're keen to see what you come up with!
 
-The ideal solution should either:
+The ideal solution will:
 
-- take place inside a single database transaction so that partial deletions don't happen,
-- or have some method for communicating partial success to the frontend.
+- be atomic, so that either all specified records will be deleted or none will;
+- perform fewer than _n_ database statements;
+- be justified with a few brief sentences or bullet points in the comments. For example: how did you choose your route/method combination? How did you decide on a data format for the request body, if any?
 
 The `SolarProject` model uses [soft deletion](https://laravel.com/docs/6.x/eloquent#soft-deleting), so you don't need to worry about deleting related rows in other tables; the project will remain in the database with its `deleted_at` date set so it doesn't appear in ORM queries.
 
