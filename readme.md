@@ -12,7 +12,10 @@ We're looking forward to seeing how you complete the tasks.
 5. Submit your modified code as a zip file to daniel@getpylon.com
 6. We will get back to you with outcomes and feedback as soon as possible
 
-If you have any issues during setup, please contact daniel@getpylon.com immediately! We know how many issues can arise when trying to get someone else's code running and don't want you getting stuck on it unnecessarily :)
+> **Before submission** please make sure you delete `backend/vendor` and `frontend/node_modules`.
+> We do not need those directories and they take up a lot of space, making submissions slower!
+
+If you have any issues during setup, please contact daniel@getpylon.com immediately! We know how many issues can arise when trying to get someone else's code running and don't want you getting stuck on it unnecessarily.
 
 And please reach out to Daniel if any of the tasks are unclear or you need some assistance.
 
