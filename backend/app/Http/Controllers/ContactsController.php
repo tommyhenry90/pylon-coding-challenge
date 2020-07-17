@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\ContactResource;
 use App\Http\Resources\ContactCollection;
 use App\Models\Contact;
+use phpDocumentor\Reflection\DocBlock\Tags\Reference\Reference;
+use phpDocumentor\Reflection\Types\This;
 
 class ContactsController extends Controller
 {
@@ -51,7 +53,7 @@ class ContactsController extends Controller
         } else {
             $data = $this->validate($request, [
                 'first_name' => 'string|required|max:255',
-                'first_name' => 'string|present|max:255',
+                'last_name' => 'string|present|max:255',
                 'email' => 'string|present|max:255',
             ]);
         }
@@ -68,4 +70,20 @@ class ContactsController extends Controller
 
         return response()->noContent();
     }
+
+    public function deleteMany(Request $request)
+    {
+        $ids = explode(",",$request->get('ids'));
+        $contacts = Contact::whereIn('uuid', $ids);
+        if ($contacts->count() == count($ids)) {
+            $contacts->delete();
+            return response()->noContent();
+        }
+        return response('Some of the contacts do not exist',422);
+    }
+
+    public function testa() {
+        return response('hi there');
+    }
+
 }
