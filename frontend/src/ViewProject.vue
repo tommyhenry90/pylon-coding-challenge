@@ -7,7 +7,7 @@
           <span class="margin-left-2">All projects</span>
         </router-link>
 
-        <router-link :to="'/projects/' + $route.params.project_id + '/edit'"
+        <router-link :to="'/projects/' + $route.params.project_id + '/edit'" v-bind:project="project"
           class="level-right button is-info is-small">
           Edit project
         </router-link>

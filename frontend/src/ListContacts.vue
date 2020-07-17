@@ -45,17 +45,25 @@ export default {
   },
 
   methods: {
-    // TODO: this is bugged, contacts appear as they load up rather than all at once.
+    // Replaced forEach loop with a map which returns an array of Promises,
+    // which we can then await before filling in the contacts list
+    // Also added .then and .catch methods when getting contact information
     async fetchContacts() {
       this.contacts = null;
       let contacts = [];
       let params = {page: this.page};
       let response = await http.get('/contacts', {params});
       this.pagination = response.data.meta;
-      response.data.data.forEach(async contact => {
-        let response = await http.get('/contacts/' + contact.id);
-        contacts.push(response.data.data);
-      });
+      await Promise.all(response.data.data.map(async contact => {
+        await http
+                .get('/contacts/' + contact.id)
+                .then(response => {
+                  contacts.push(response.data.data);
+                })
+                .catch(error => {
+                  console.error(error);
+                })
+      }))
       this.contacts = contacts;
     },
   },

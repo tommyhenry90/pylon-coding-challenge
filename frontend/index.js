@@ -6,9 +6,11 @@ import App from './src/App.vue';
 import ListProjects from './src/ListProjects.vue';
 import ViewProject from './src/ViewProject.vue';
 import ListContacts from './src/ListContacts.vue';
+import EditProject from "./src/EditProject";
 
 import './vendor/bulma.min.css';
 import './src/app.css';
+
 
 new Vue({
   el: '#app',
@@ -26,6 +28,10 @@ new Vue({
       {
         path: '/projects/:project_id',
         component: ViewProject,
+      },
+      {
+        path: '/projects/:project_id/edit',
+        component: EditProject,
       },
       {
         path: '/contacts',
